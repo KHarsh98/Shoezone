@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/css/style.css">
+        <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+        <script type ="text/javascript" src="/static/js/materialize.js"></script>
+
+        <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+        
+
+        <title>Let the shopping begin</title>
+    </head>
+    <body>
+        <nav>
+            <div class="wrapper-nav">
+    
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
+                    <li><a href="/cart">Shopping Cart</a></li>
+                    <li><a href="/account">My Account</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <form class="search-bar-top" action="#">
+                        <li><input type="text" name="search" placeholder="  Look something up.."></li>
+                    </form>
+                </ul>
+            </div>
+        </nav>
+        <div class = "container" id = "product-display">
+                {% for row in cursor %}
+                {% set link = "/static/images/" + row[9]  + ".jpeg" %}
+                {% set link1 = "/static/images/" + row[9] + "1.jpeg" %}
+            <div class = "row">
+                <div class = "col s1" id = "product-sides">
+                    <a href="#"><img src="{{ link }}" width = 150 height = 150></a><br>
+                    <a href="#"><img src="{{ link1 }}" width = 150 height = 150></a>
+                </div>
+               
+                <div class = "col s4 offset-s2" id ="product-main-image"> <img src='{{ link }}'></div>
+                <div class = "col s4 offset-s1">
+                    <div class = "row" id = "product-title">
+                        <p >{{ row[9] }}</p>
+                    </div>
+                    <div class = "row" id = "product-price"> 
+                        <p >{{ "$" + row[3]|string }}</p>
+                    </div>
+                    <div class = "row" id = "product-pay-details">
+                    <p >Flat 50% off. EMI available at 10% per month</p>
+                    </div>
+                    <div id = "product-colors" class = "row">
+                        <div class = "col">
+                            <a href="#"><img src="/static/images/productimgColor1.jpeg" class = "default"></a>
+                        </div>
+                        <div class = "col">
+                            <a href="#"><img src="/static/images/productimgColor2.jpeg" class = "altColor"></a>
+                        </div>
+                    </div>
+                    <div id = "sizes" class = "row">
+                            <div class="input-field col s12">
+                                    <select>
+                                      <option value="" disabled selected>Select size</option>
+                                      <option value="1">Six</option>
+                                      <option value="2">Seven</option>
+                                      <option value="3">Eight</option>
+                                    </select>
+                                    <label>Avaliable Sizes</label>
+                            </div>
+                       
+                       <!-- Dropdown Trigger 
+                        <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Available Sizes</a>
+
+                        <!-- Dropdown Structure 
+                        <ul id='dropdown1' class='dropdown-content'>
+                            <li><a href="#!">Six</a></li>
+                            <li><a href="#!">Seven</a></li>
+                            <li><a href="#!">Eight</a></li>
+                            <li><a href="#!">Nine</a></li>
+                            <li><a href="#!">Ten</a></li>                           
+                        </ul>
+                    -->
+                    </div>
+                    
+                    <div class="row">
+                        <!-- ADD to CART LINK TO BE DONE!-->
+                        <a class= "waves-effect waves-light btn" onclick="M.toast({html: 'Added to cart!'})" >Add to cart</a>
+
+                    </div>
+                    <div class="row" id = "product-details">
+                        <p>{{ row[6] }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+        
+    </body>
+    <script type="text/javascript">
+        
+        //Dropdown trigger (DONT TOUCH AT ANY COST)
+        $('.dropdown-trigger').dropdown();
+        // SELECT TRIGGER
+        $(document).ready(function(){
+        $('select').formSelect();
+        });
+        
+
+        //      Alternating Colours
+        $('#product-colors img').click(function() {
+            $('#product-colors .default').removeClass("default");
+            $(this).toggleClass("default");
+        }); 
+        //      Viewing Product sides
+        $('#product-sides img').click(function(){
+            var $src = $(this).attr('src')
+            $("#product-main-image img").attr("src", $src);
+        });
+        
+    </script>
+  
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <title>Shoezone| Buy premium footwear</title>
+    
+    
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/static/scripts/jquery.cycle.all.js"></script>
+<script>
+$(document).ready(function() {
+	$('#slideshow').cycle({
+	fx: 'fade',
+	pager: '#smallnav',
+	pause:   1,
+	speed: 1800,
+	timeout:  1000
+	});
+});
+</script>
+    </head>
+    <body>
+        <nav>
+            <div class="wrapper-nav">
+    
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/shop">Shop</a></li>
+                    <li><a href="/cart">Shopping Cart</a></li>
+                    <li><a href="/account">My Account</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <form class="search-bar-top" action="#">
+                        <li><input type="text" name="search" placeholder="  Look something up.."></li>
+                    </form>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="slideshow">
+                <img src="/static/images/b1.jpg" class="bgM"/>
+                <img src="/static/images/b2.jpg" class="bgM"/>
+                <img src="/static/images/b3.jpg" class="bgM"/>
+                
+              </div>
+    
+    </body>
+</html>

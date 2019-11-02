@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/materialize.js"></script>
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" media="screen,projection" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>Let the shopping begin</title>
+</head>
+
+<body>
+    <nav>
+        <div class="wrapper-nav">
+
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/cart">Shopping Cart</a></li>
+                <li><a href="/account">My Account</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <form class="search-bar-top" action="#">
+                    <li><input type="text" name="search" placeholder="  Look something up.."></li>
+                </form>
+            </ul>
+        </div>
+    </nav>
+    <ui>
+        <div class="container" id="product_grid">
+
+            <div class="row" id="catalog">
+                <div class="col offset-s4">
+                    <a class='dropdown-trigger' id='men-catalog-bttn' href='#' data-target='catalog-men'>Men</a>
+                    <ul id='catalog-men' class='dropdown-content'>
+                        <li><a href="/shop/men/sports">Sports</a></li>
+                        <li><a href="/shop/men/running">Running</a></li>
+                        <li><a href='/shop/men/casual'>Casual</a></li>
+                        <li><a href="/shop/men/formal">Formal</a></li>
+                    </ul>
+                </div>
+                <div class="col offset-s1">
+                    <a class='dropdown-trigger' id='women-catalog-bttn' href='#'
+                        data-target="catalog-women">Women</a>
+                    <ul id='catalog-women' class='dropdown-content'>
+                        <li><a href="/shop/women/sports">Sports</a></li>
+                        <li><a href="/shop/women/running">Running</a></li>
+                        <li><a href="/shop/women/formal">Formal</a></li>
+                        <li><a href="/shop/women/casual">Casual</a></li>
+                        <li><a href="/shop/women/heels">Heels</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" id='category-info'>
+                <div class='col s3 offset-s4'>
+                    {% if request.path =="/shop/men/sports" %}
+                    <p>Sports</p>
+                   
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class='col'>
+                    <span>Filter</span>
+                    <ul class='collapsible'>
+                        <li>
+                            <div class='collapsible-header'>Subcategories</div>
+                            <div class='collapsible-body'>
+                                <ul class='collection'>
+                                    <li><a href="#">subcat 1</a></li>
+                                    <li><a href="#">subcat 2</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class='collapsible-header'>Size</div>
+                            <div class='collapsible-body'>
+                                <ul class='collection'>
+                                    <li><a href='#'>Small</a></li>
+                                    <li><a href='#'>Medium</a></li>
+                                    <li><a href='#'>Large</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class='collapsible-header'>Color</div>
+                            <div class='collapsible-body'>
+                                <ul class='collection'>
+                                    <li><a href='#'>Red</a></li>
+                                    <li><a href='#'>Orange</a></li>
+                                    <li><a href='#'>Pink</a></li>
+                                    <li><a href='#'>Blue</a></li>
+                                    <li><a href='#'>Green</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                {% for row in cursor %}
+                {% set link = "/static/images/" + row[9]  + ".jpeg" %}
+                <div class="col s3">
+                    <a href="{{ url_for('product', prodID=row[0]) }}">
+                        <img src="{{ link }}">
+                        <p>{{ row[9] }}</p>
+                        <p>{{ "$"+ row[3]|int|string }}</p>
+                    </a>
+                </div>
+                {% endfor %}                
+            </div>
+            
+            <div class="row" id="pagination-bar">
+                <div class="col s4 offset-s3">
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                        <li class="active"><a href="#!">1</a></li>
+                        <li class="waves-effect"><a href="#!">2</a></li> <!-- ADD links to second and next pages-->
+                        <li class="waves-effect"><a href="#!">3</a></li>
+                        <li class="waves-effect"><a href="#!">4</a></li>
+                        <li class="waves-effect"><a href="#!">5</a></li>
+                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ui>
+
+
+</body>
+<script type='text/javascript'>
+    //DROPDOWN trigger
+    $('.dropdown-trigger').dropdown(
+        {
+            //settings for dropdown
+            inDuration: 300,
+            outDuration: 225,
+            constrain_width: false, // Does not change width of dropdown to that of the activator
+            hover: true, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        }
+
+    );
+
+        // Collapsible trigger - dont touch
+    $(document).ready(function () {
+        $('.collapsible').collapsible();
+    });
+
+
+
+</script>
+
+</html>
+
+<!-- TODO: 1. make images hoverable and block clickable. Quick shop option on hover. Nice if you add a depth effect on hover or bordernDONE-->
+<!-- TODO: 2. make a filter in the top left. drop down should go to the left and products should shift to the right-->
+<!-- TODO: 3. at bottom add paging. TIP: use materialize-->
+<!-- TODO: 4. make a footer page links : Shipping, Refunds, Contact, etc..-->
+<!-- TODO: 6. make a terms and conditions footer page links : copyrights, terms of service, privacy policy etc..-->
+<!-- TODO: 5. make drop down menu for men/women and category wise at top. Cat name should be at top of page-->
+<!-- TODO: 6, make a product page -- DONE
+-->

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/materialize.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" media="screen,projection" />
+
+
+    <title>Your Shopping Cart</title>
+</head>
+
+<body>
+    <nav>
+        <div class="wrapper-nav">
+
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/shop">Shop</a></li>
+                <li><a href="/cart">Shopping Cart</a></li>
+                <li><a href="/account">My Account</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <form class="search-bar-top" action="#">
+                    <li><input type="text" name="search" placeholder="  Look something up.."></li>
+                </form>
+            </ul>
+        </div>
+    </nav>
+    <div class='container'>
+        <div class='row' id='cart-head'>
+            <div class='col s1'>
+                <p><a href='#'>Your wishlist</a></p>
+            </div>
+            <div class='col s3 offset-s3'>
+                <h1>Your bag</h1>
+            </div>
+            <div class='col s2 offset-s3'>
+                <p><a href='#'>Continue Shopping</a></p>
+            </div>
+        </div>
+        <div class='row' id='product-table'>
+            <form method='post' action='#' class='cart-form' autocomplete="off">
+                <div class='col s5'>
+                    <table class='cart-table'>
+                        <tr>
+                            <th colspan=2>Product</th>
+                            <th>Size/Qty</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr class='item' id='prodRow1'>
+                            <td class='item-pic'>
+                                <img src='/static/images/shoe1.png'>
+                                <button class='remove'>Remove</button>
+                            </td>
+                            <td class='item-title'>
+                                <a href="#" class='title'>Shoe1</a> <br>
+                                Small <br>
+                                ProductID
+                            </td>
+                            <td class='item-qty'>
+                                <div class='product-quantity input-quantity'>
+                                    <div class='input-quantity-decrement'>▼</div>
+                                    <div class='input-quantity-display'>1</div>
+                                    <div class='input-quantity-increment'>▲</div>
+
+                                </div>
+                            </td>
+                            <td class='item-total'>
+                                $9
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class='col s4 offset-s3'>
+                    <div class='order-summary'>
+                        <p>Order Summary</p>
+                        <table width="100%">
+                            <tbody>
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td class='cart-total'>$9</td>
+                                </tr>
+                            </tbody>
+                        </table> <br>
+                        <input type='submit' name='checkout' class='btn checkout' value='Checkout'>
+
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+    <button id='add'>add</button>
+</body>
+<script type='text/javascript'>
+
+    $(document).ready(function () {
+
+        // Increment Quantity
+        $(document).on('click', 'div.input-quantity-increment', function () {
+            $qty = parseInt($(this).siblings(".input-quantity-display").text());
+            $(this).siblings(".input-quantity-display").text($qty + 1);
+            var priceTD = $(this).parent().parent().siblings('.item-total');
+            var price = priceTD.text().split('$');
+            var increasedPrice = parseInt(price[1]) * 2;
+            priceTD.text("$" + increasedPrice);
+            calculateCost();
+        });
+
+        // Decrement Quantity
+
+        $(document).on('click', 'div.input-quantity-decrement', function () {
+            $qty = parseInt($(this).siblings(".input-quantity-display").text());
+            if ($qty > 0) {
+                $(this).siblings(".input-quantity-display").text($qty - 1);
+                var priceTD = $(this).parent().parent().siblings('.item-total');
+                var price = priceTD.text().split('$');
+                var decreasedPrice = parseInt(price[1]) / 2;
+                priceTD.text("$" + decreasedPrice);
+                calculateCost();
+            }
+        });
+        //Remove item
+
+        $(document).on('click', 'button.remove', function () {
+            var pid = $(this).parent().parent().attr('id'); // obtain pid from table row of the remove button
+            var productRow = $(this).parent().parent(); // get the product row for the particular product
+            productRow.remove();
+            calculateCost();
+            // use prod id to remove from dbremoveItem
+        });
+
+        function calculateCost() {
+            var cartTotal = $('td.cart-total');
+            var sum = 0;
+            $('.item-total').each(function () {
+                var priceText = $(this).text().split('$');
+                sum += parseInt(priceText[1]);
+            })
+            cartTotal.text("$" + sum);
+
+        };
+
+
+        // Add item
+        function addItem() {
+
+            var name = "shoe2"; // obtain name from db
+            var prodID = "prodRow2"; //obtain id from db
+            var pic_src = "/static/images/shoe1.png"; // obtain img from db
+            var price = "$800"; // obtain price from db
+            var size = "small"; // obtain size from db
+
+            var markup = "<tr class='item' id = prodRow2>" +
+                "<td class='item-pic'>" +
+                "<img src=" + pic_src + ">" +
+                "<button class='remove'>Remove</button>" +
+                "</td>" +
+                "<td class='item-title'>" +
+                "<a href='#' class='title'>" + name + "</a> <br>" +
+                size + " <br>" +
+                prodID +
+                "</td>" +
+                "<td class='item-qty'>" +
+                "<div class='product-quantity input-quantity'>" +
+                "<div class='input-quantity-decrement'>▼</div>" +
+                "<div class='input-quantity-display'>1</div>" +
+                "<div class='input-quantity-increment'>▲</div>" +
+                "</div>" +
+                "</td>" +
+                "<td class='item-total'>" +
+                price +
+                "</td>" +
+                "</tr>";
+
+            $('.cart-table').append(markup);
+
+
+        };
+        $('#add').click(function () {
+            addItem();
+            calculateCost();
+        });
+
+
+
+
+
+
+
+
+
+    });
+
+</script>
+
+</html>
